@@ -9,7 +9,7 @@ using namespace std;
 
 
 //带点名的地心地固坐标
-struct coorCECF_withname
+struct coorECEF_withname
 {
 	double x;
 	double y;
@@ -18,7 +18,7 @@ struct coorCECF_withname
 };
 
 //地心地固坐标
-struct coorCECF
+struct coorECEF
 {
 	double x;
 	double y;
@@ -65,14 +65,14 @@ struct precisionPara
 	int n;//条件方程数
 	int r;//冗余度
 	double sigma0;//单位权中误差
-	vector<coorCECF_withname> e;
+	vector<coorECEF_withname> e;
 };
 
 //外符合精度指标
 struct precisionResidual
 {
 	double variance;//方差
-	vector<coorCECF_withname> e;
+	vector<coorECEF_withname> e;
 };
 
 //四参数
@@ -123,37 +123,37 @@ struct parameter_13
 };
 
 //计算四参数
-bool computePara_4(map<string, vector<coorCECF>> coor, parameter_4 &para);
+bool computePara_4(map<string, vector<coorECEF>> coor, parameter_4 &para);
 
 //将源坐标转换到目标坐标 四参数
-bool computeDstCoorPara_4(vector<coorCECF_withname>src, vector<coorCECF_withname>&dst,parameter_4 para);
+bool computeDstCoorPara_4(vector<coorECEF_withname>src, vector<coorECEF_withname>&dst,parameter_4 para);
 
 //计算六参数
-bool computePara_6(map<string, vector<coorCECF>> coor, parameter_6& para);
+bool computePara_6(map<string, vector<coorECEF>> coor, parameter_6& para);
 
 //将源坐标转换到目标坐标 六参数
-bool computeDstCoorPara_6(vector<coorCECF_withname>src, vector<coorCECF_withname>& dst, parameter_6 para);
+bool computeDstCoorPara_6(vector<coorECEF_withname>src, vector<coorECEF_withname>& dst, parameter_6 para);
 
 //计算七参数
-bool computePara_7(map<string, vector<coorCECF>> coor, parameter_7& para);
+bool computePara_7(map<string, vector<coorECEF>> coor, parameter_7& para);
 
 //将源坐标转换到目标坐标 七参数
-bool computeDstCoorPara_7(vector<coorCECF_withname>src, vector<coorCECF_withname>& dst, parameter_7 para);
+bool computeDstCoorPara_7(vector<coorECEF_withname>src, vector<coorECEF_withname>& dst, parameter_7 para);
 
 //计算十三参数
-bool computePara_13(map<string, vector<coorCECF>> coor, parameter_13& para);
+bool computePara_13(map<string, vector<coorECEF>> coor, parameter_13& para);
 
 //将源坐标转换到目标坐标 十三参数
-bool computeDstCoorPara_13(vector<coorCECF_withname>src, vector<coorCECF_withname>& dst, parameter_13 para);
+bool computeDstCoorPara_13(vector<coorECEF_withname>src, vector<coorECEF_withname>& dst, parameter_13 para);
 
 //计算残差
-bool computeResidual(vector<coorCECF_withname>estimate, vector<coorCECF_withname> real, precisionResidual& res);
+bool computeResidual(vector<coorECEF_withname>estimate, vector<coorECEF_withname> real, precisionResidual& res);
 
 //XYZ转BLH
-bool coorXYZ2BLH(vector<coorCECF_withname>src, vector<coorBLH_withname>& dst);
+bool coorXYZ2BLH(vector<coorECEF_withname>src, vector<coorBLH_withname>& dst);
 
 //BLH转XYZ
-bool coorBLH2XYZ(vector<coorBLH_withname> src, vector<coorCECF_withname>& dst);
+bool coorBLH2XYZ(vector<coorBLH_withname> src, vector<coorECEF_withname>& dst);
 
 //XYZ转NEU
-bool coorXYZ2NEU(coorCECF_withname center, vector<coorCECF_withname> src, vector<coorNEU_withname>& dst);
+bool coorXYZ2NEU(coorECEF_withname center, vector<coorECEF_withname> src, vector<coorNEU_withname>& dst);

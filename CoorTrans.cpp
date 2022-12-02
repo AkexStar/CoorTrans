@@ -1,10 +1,10 @@
 #include "CoorTrans.h"
 
 //计算四参数
-bool computePara_4(map<string, vector<coorCECF>> coor, parameter_4 &para)
+bool computePara_4(map<string, vector<coorECEF>> coor, parameter_4 &para)
 {
-	vector<coorCECF> src;	//存储源坐标系坐标
-	vector<coorCECF> dst;	//存储目标坐标系坐标
+	vector<coorECEF> src;	//存储源坐标系坐标
+	vector<coorECEF> dst;	//存储目标坐标系坐标
 	vector<string> name;	//储存点名
 	for (auto it = coor.begin(); it != coor.end(); ++it)
 	{
@@ -59,7 +59,7 @@ bool computePara_4(map<string, vector<coorCECF>> coor, parameter_4 &para)
 	V = - (MatrixXd::Identity(n,n)- B * (B.transpose() * B).inverse() * B.transpose())*l;
 	for (int i=0;i<d;i++)
 	{
-		coorCECF_withname temp_e={V(i,0),V(i+d,0),0,name[i]};
+		coorECEF_withname temp_e={V(i,0),V(i+d,0),0,name[i]};
 		para.precision.e.push_back(temp_e);
 	}
 	//计算sigma0
@@ -68,7 +68,7 @@ bool computePara_4(map<string, vector<coorCECF>> coor, parameter_4 &para)
 	return true;
 }
 
-bool computeDstCoorPara_4(vector<coorCECF_withname>src, vector<coorCECF_withname>& dst, parameter_4 para)
+bool computeDstCoorPara_4(vector<coorECEF_withname>src, vector<coorECEF_withname>& dst, parameter_4 para)
 {
 	MatrixXd x(4, 1);
 	x(0, 0) = para.dx;
@@ -97,17 +97,17 @@ bool computeDstCoorPara_4(vector<coorCECF_withname>src, vector<coorCECF_withname
 	y = temp + B * x;
 	for(int i=0;i<d;i++)
 	{
-		coorCECF_withname temp={y(i,0),y(i+d,0),0,src[i].name};
+		coorECEF_withname temp={y(i,0),y(i+d,0),0,src[i].name};
 		dst.push_back(temp);
 	}
 	return true;
 }
 
 //计算七参数
-bool computePara_7(map<string, vector<coorCECF>> coor, parameter_7& para)
+bool computePara_7(map<string, vector<coorECEF>> coor, parameter_7& para)
 {
-	vector<coorCECF> src;	//存储源坐标系坐标
-	vector<coorCECF> dst;	//存储目标坐标系坐标
+	vector<coorECEF> src;	//存储源坐标系坐标
+	vector<coorECEF> dst;	//存储目标坐标系坐标
 	vector<string> name;	//储存点名
 	for (auto it = coor.begin(); it != coor.end(); ++it)
 	{
@@ -170,7 +170,7 @@ bool computePara_7(map<string, vector<coorCECF>> coor, parameter_7& para)
 	V = - (MatrixXd::Identity(n, n) - B * (B.transpose() * B).inverse() * B.transpose()) * l;
 	for (int i = 0; i < d; i++)
 	{
-		coorCECF_withname temp_e = { V(i,0),V(i + d,0), V(i+2*d,0),name[i] };
+		coorECEF_withname temp_e = { V(i,0),V(i + d,0), V(i+2*d,0),name[i] };
 		para.precision.e.push_back(temp_e);
 	}
 	//计算sigma0
@@ -179,7 +179,7 @@ bool computePara_7(map<string, vector<coorCECF>> coor, parameter_7& para)
 	return true;
 }
 
-bool computeDstCoorPara_7(vector<coorCECF_withname>src, vector<coorCECF_withname>& dst, parameter_7 para)
+bool computeDstCoorPara_7(vector<coorECEF_withname>src, vector<coorECEF_withname>& dst, parameter_7 para)
 {
 	MatrixXd x(7, 1);
 	x(0, 0) = para.dx;
@@ -218,17 +218,17 @@ bool computeDstCoorPara_7(vector<coorCECF_withname>src, vector<coorCECF_withname
 	y = temp + B * x;
 	for (int i = 0; i < d; i++)
 	{
-		coorCECF_withname temp = { y(i,0),y(i + d,0),y(i+2*d,0),src[i].name };
+		coorECEF_withname temp = { y(i,0),y(i + d,0),y(i+2*d,0),src[i].name };
 		dst.push_back(temp);
 	}
 	return true;
 }
 
 //计算六参数
-bool computePara_6(map<string, vector<coorCECF>> coor, parameter_6& para)
+bool computePara_6(map<string, vector<coorECEF>> coor, parameter_6& para)
 {
-	vector<coorCECF> src;	//存储源坐标系坐标
-	vector<coorCECF> dst;	//存储目标坐标系坐标
+	vector<coorECEF> src;	//存储源坐标系坐标
+	vector<coorECEF> dst;	//存储目标坐标系坐标
 	vector<string> name;	//储存点名
 	for (auto it = coor.begin(); it != coor.end(); ++it)
 	{
@@ -290,7 +290,7 @@ bool computePara_6(map<string, vector<coorCECF>> coor, parameter_6& para)
 	V = -(MatrixXd::Identity(n, n) - B * (B.transpose() * B).inverse() * B.transpose()) * l;
 	for (int i = 0; i < d; i++)
 	{
-		coorCECF_withname temp_e = { V(i,0),V(i + d,0), V(i + 2 * d,0),name[i] };
+		coorECEF_withname temp_e = { V(i,0),V(i + d,0), V(i + 2 * d,0),name[i] };
 		para.precision.e.push_back(temp_e);
 	}
 	//计算sigma0
@@ -299,7 +299,7 @@ bool computePara_6(map<string, vector<coorCECF>> coor, parameter_6& para)
 	return true;
 }
 
-bool computeDstCoorPara_6(vector<coorCECF_withname>src, vector<coorCECF_withname>& dst, parameter_6 para)
+bool computeDstCoorPara_6(vector<coorECEF_withname>src, vector<coorECEF_withname>& dst, parameter_6 para)
 {
 	MatrixXd x(6, 1);
 	x(0, 0) = para.dx;
@@ -337,7 +337,7 @@ bool computeDstCoorPara_6(vector<coorCECF_withname>src, vector<coorCECF_withname
 	y = temp + B * x;
 	for (int i = 0; i < d; i++)
 	{
-		coorCECF_withname temp = { y(i,0),y(i + d,0),y(i + 2 * d,0),src[i].name };
+		coorECEF_withname temp = { y(i,0),y(i + d,0),y(i + 2 * d,0),src[i].name };
 		dst.push_back(temp);
 	}
 	return true;
@@ -363,10 +363,10 @@ extern MatrixXd Kron(Eigen::MatrixXd m1, Eigen::MatrixXd m2) {
 }
 
 //计算十三参数
-//bool computePara_13(map<string, vector<coorCECF>> coor, parameter_13& para)
+//bool computePara_13(map<string, vector<coorECEF>> coor, parameter_13& para)
 //{
-//	vector<coorCECF> src;	//存储源坐标系坐标
-//	vector<coorCECF> dst;	//存储目标坐标系坐标
+//	vector<coorECEF> src;	//存储源坐标系坐标
+//	vector<coorECEF> dst;	//存储目标坐标系坐标
 //	vector<string> name;	//储存点名
 //	for (auto it = coor.begin(); it != coor.end(); ++it)
 //	{
@@ -495,7 +495,7 @@ extern MatrixXd Kron(Eigen::MatrixXd m1, Eigen::MatrixXd m2) {
 //	para.dz = ksai0(11, 0);
 //	for (int i = 0; i < d; i++)
 //	{
-//		coorCECF_withname temp_e = { e(i,0),e(i + d,0), e(i + 2 * d,0),name[i] };
+//		coorECEF_withname temp_e = { e(i,0),e(i + d,0), e(i + 2 * d,0),name[i] };
 //		para.precision.e.push_back(temp_e);
 //	}
 //	return true;
@@ -503,10 +503,10 @@ extern MatrixXd Kron(Eigen::MatrixXd m1, Eigen::MatrixXd m2) {
 //
 
 //计算十三参数
-bool computePara_13(map<string, vector<coorCECF>> coor, parameter_13& para)
+bool computePara_13(map<string, vector<coorECEF>> coor, parameter_13& para)
 {
-	vector<coorCECF> src;	//存储源坐标系坐标
-	vector<coorCECF> dst;	//存储目标坐标系坐标
+	vector<coorECEF> src;	//存储源坐标系坐标
+	vector<coorECEF> dst;	//存储目标坐标系坐标
 	vector<string> name;	//储存点名
 	for (auto it = coor.begin(); it != coor.end(); ++it)
 	{
@@ -666,7 +666,7 @@ bool computePara_13(map<string, vector<coorCECF>> coor, parameter_13& para)
 	V = (A * x0 - l);
 	for (int i = 0; i < d; i++)
 	{
-		coorCECF_withname temp_e = {V(i,0), V(i + d,0), -V(i + 2 * d,0), name[i]};
+		coorECEF_withname temp_e = {V(i,0), V(i + d,0), -V(i + 2 * d,0), name[i]};
 		para.precision.e.push_back(temp_e);
 	}
 	//计算sigma0
@@ -682,7 +682,7 @@ bool computePara_13(map<string, vector<coorCECF>> coor, parameter_13& para)
 	return true;
 }
 
-bool computeDstCoorPara_13(vector<coorCECF_withname>src, vector<coorCECF_withname>& dst, parameter_13 para)
+bool computeDstCoorPara_13(vector<coorECEF_withname>src, vector<coorECEF_withname>& dst, parameter_13 para)
 {
 	int d = src.size();
 	if (d == 0)
@@ -706,47 +706,47 @@ bool computeDstCoorPara_13(vector<coorCECF_withname>src, vector<coorCECF_withnam
 			src[i].y,
 			src[i].z;
 		x_t = K * R * x_s + dxyz;
-		coorCECF_withname temp = { x_t(0,0),x_t(1,0),x_t(2,0),src[i].name };
+		coorECEF_withname temp = { x_t(0,0),x_t(1,0),x_t(2,0),src[i].name };
 		dst.push_back(temp);
 	}
 	return true;
 }
 
 //计算残差
-bool computeResidual(vector<coorCECF_withname>estimate, vector<coorCECF_withname> real, precisionResidual& res)
+bool computeResidual(vector<coorECEF_withname>estimate, vector<coorECEF_withname> real, precisionResidual& res)
 {
-	map<string, coorCECF> src;
-	map<string, coorCECF> dst;
+	map<string, coorECEF> src;
+	map<string, coorECEF> dst;
 	for (int i = 0; i < estimate.size(); i++)
 	{
-		coorCECF temp = { estimate[i].x,estimate[i].y,estimate[i].z };
+		coorECEF temp = { estimate[i].x,estimate[i].y,estimate[i].z };
 		if (src.count(estimate[i].name) > 0)
 		{
 			cout << "检核点<估计值>数据内存在同名点！\n";
 			return false;
 		}
 		else
-			src.insert(pair<string,coorCECF>(estimate[i].name, temp));
+			src.insert(pair<string,coorECEF>(estimate[i].name, temp));
 	}
 	for (int i = 0; i < real.size(); i++)
 	{
-		coorCECF temp = { real[i].x,real[i].y,real[i].z };
+		coorECEF temp = { real[i].x,real[i].y,real[i].z };
 		if (dst.count(real[i].name) > 0)
 		{
 			cout << "检核点<真值>数据内存在同名点！\n";
 			return false;
 		}
 		else
-			dst.insert(pair<string, coorCECF>(real[i].name, temp));
+			dst.insert(pair<string, coorECEF>(real[i].name, temp));
 	}
 	for (auto it = src.begin(); it != src.end(); ++it)
 	{
 		if(dst.count(it->first)>0)
 		{
 			string name = it->first;
-			coorCECF c1 = it->second;
-			coorCECF c2 = dst[name];
-			coorCECF_withname temp = { c2.x - c1.x, c2.y - c1.y, c2.z - c1.z, name };
+			coorECEF c1 = it->second;
+			coorECEF c2 = dst[name];
+			coorECEF_withname temp = { c2.x - c1.x, c2.y - c1.y, c2.z - c1.z, name };
 			res.e.push_back(temp);
 		}
 		else
@@ -770,7 +770,7 @@ static double WGS84_a = 6378137;
 static double WGS84_b = 6356752;
 double WGS84_e2 = 0.00669437999013;
 
-bool coorXYZ2BLH(vector<coorCECF_withname>src, vector<coorBLH_withname>&dst)
+bool coorXYZ2BLH(vector<coorECEF_withname>src, vector<coorBLH_withname>&dst)
 {
 	int n = src.size();
 	if (n == 0)
@@ -812,7 +812,7 @@ bool coorXYZ2BLH(vector<coorCECF_withname>src, vector<coorBLH_withname>&dst)
 	return true;;
 }
 
-bool coorBLH2XYZ(vector<coorBLH_withname> src, vector<coorCECF_withname>& dst)
+bool coorBLH2XYZ(vector<coorBLH_withname> src, vector<coorECEF_withname>& dst)
 {
 	int n = src.size();
 	if (n == 0)
@@ -827,7 +827,7 @@ bool coorBLH2XYZ(vector<coorBLH_withname> src, vector<coorCECF_withname>& dst)
 		L = src[i].L;
 		H = src[i].H;
 		double N = WGS84_a / (sqrt(1 - WGS84_e2 * sin(B) * sin(B)));
-		coorCECF_withname temp;
+		coorECEF_withname temp;
 		temp.name = src[i].name;
 		temp.x = (N + H) * cos(B) * cos(L);
 		temp.y = (N + H) * cos(B) * sin(L);
@@ -836,9 +836,9 @@ bool coorBLH2XYZ(vector<coorBLH_withname> src, vector<coorCECF_withname>& dst)
 	}
 }
 
-bool coorXYZ2NEU(coorCECF_withname center0, vector<coorCECF_withname> src, vector<coorNEU_withname>& dst)
+bool coorXYZ2NEU(coorECEF_withname center0, vector<coorECEF_withname> src, vector<coorNEU_withname>& dst)
 {
-	vector<coorCECF_withname> temp1;
+	vector<coorECEF_withname> temp1;
 	vector<coorBLH_withname> temp2;
 	temp1.push_back(center0);
 	coorXYZ2BLH(temp1,temp2);

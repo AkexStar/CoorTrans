@@ -8,10 +8,10 @@
 #include <fstream>
 #include "CoorTrans.h"
 using namespace std;
-bool readCECFCoor(vector<coorCECF_withname>&);//读取CECF坐标文件 文件格式：点名，X，Y，Z .xyz
+bool readECEFCoor(vector<coorECEF_withname>&);//读取ECEF坐标文件 文件格式：点名，X，Y，Z .xyz
 bool readBLHCoor(vector<coorBLH_withname>& result);//读取BLH坐标文件 文件格式：点名，X，Y，Z .blh
 bool writeBLHCoor(vector<coorBLH_withname> src, string &filename);//写入BLH坐标文件 文件格式：点名，B，L，H .txt
-bool writeCECFCoor(vector<coorCECF_withname> src, string& filename);//写入BLH坐标文件 文件格式：点名，B，L，H .txt
+bool writeECEFCoor(vector<coorECEF_withname> src, string& filename);//写入BLH坐标文件 文件格式：点名，B，L，H .txt
 bool writeNEUCoor(vector<coorNEU_withname> src, string& filename);//写入NEU坐标文件 文件格式：点名，N，E，U .txt
 int getNumberPrecision(string x);//获取有效数字位数
 int numberPrecision = 0;//有效数字位数
@@ -39,7 +39,7 @@ bool allIsInt(string str)//判断是否全是INT
 	}
 	return true;
 }
-bool cmp(coorCECF_withname a, coorCECF_withname b)
+bool cmp(coorECEF_withname a, coorECEF_withname b)
 {
 	if(allIsInt(a.name)&&allIsInt(b.name))
 	{
@@ -80,47 +80,47 @@ int main()
 			return 0;
 		case 1://小角度四参数坐标转换
 			{
-				vector<coorCECF_withname> src_coor;	//源坐标
-				vector<coorCECF_withname> dst_coor;	//目标坐标
-				map<string, vector<coorCECF>> coor;	//坐标集合
+				vector<coorECEF_withname> src_coor;	//源坐标
+				vector<coorECEF_withname> dst_coor;	//目标坐标
+				map<string, vector<coorECEF>> coor;	//坐标集合
 				parameter_4 para;	//计算所得四参数
 				getchar();	//读取多余的换行符
 				
 				cout << "读入源坐标系坐标：\n";
-				if (readCECFCoor(src_coor))
+				if (readECEFCoor(src_coor))
 				{
 					for (int i = 0; i < src_coor.size(); i++)
 					{
-						coorCECF temp = { src_coor[i].x,src_coor[i].y,src_coor[i].z };
+						coorECEF temp = { src_coor[i].x,src_coor[i].y,src_coor[i].z };
 						if (coor.count(src_coor[i].name) > 0)
 						{
 							coor[src_coor[i].name].push_back(temp);
 						}
 						else
 						{
-							vector<coorCECF> temp2;
+							vector<coorECEF> temp2;
 							temp2.push_back(temp);
-							coor.insert(pair<string, vector<coorCECF>>(src_coor[i].name, temp2));
+							coor.insert(pair<string, vector<coorECEF>>(src_coor[i].name, temp2));
 						}
 					}
 				}
 				else break;
 				
 				cout << "读入目标坐标系坐标：\n";
-				if (readCECFCoor(dst_coor))
+				if (readECEFCoor(dst_coor))
 				{
 					for (int i = 0; i < dst_coor.size(); i++)
 					{
-						coorCECF temp = { dst_coor[i].x,dst_coor[i].y,dst_coor[i].z };
+						coorECEF temp = { dst_coor[i].x,dst_coor[i].y,dst_coor[i].z };
 						if (coor.count(dst_coor[i].name) > 0)
 						{
 							coor[dst_coor[i].name].push_back(temp);
 						}
 						else
 						{
-							vector<coorCECF> temp2;
+							vector<coorECEF> temp2;
 							temp2.push_back(temp);
-							coor.insert(pair<string, vector<coorCECF>>(dst_coor[i].name, temp2));
+							coor.insert(pair<string, vector<coorECEF>>(dst_coor[i].name, temp2));
 						}
 					}
 				}
@@ -159,10 +159,10 @@ int main()
 					if (is_compute_int == 1)
 					{
 						cout << "读入需计算的源坐标系坐标：\n";
-						vector<coorCECF_withname> src_compute_coor;//需要转换的源坐标
-						vector<coorCECF_withname> dst_compute_coor;//转换所得的目标坐标
+						vector<coorECEF_withname> src_compute_coor;//需要转换的源坐标
+						vector<coorECEF_withname> dst_compute_coor;//转换所得的目标坐标
 						getchar();
-						if (readCECFCoor(src_compute_coor))
+						if (readECEFCoor(src_compute_coor))
 						{
 							computeDstCoorPara_4(src_compute_coor, dst_compute_coor, para);
 						}
@@ -187,9 +187,9 @@ int main()
 						{
 							cout << "读入检核点<真值>坐标：\n";
 							getchar();
-							vector<coorCECF_withname> real_judge_coor;//真值坐标
+							vector<coorECEF_withname> real_judge_coor;//真值坐标
 							precisionResidual res;
-							if (readCECFCoor(real_judge_coor))
+							if (readECEFCoor(real_judge_coor))
 							{
 								computeResidual(dst_compute_coor, real_judge_coor, res);
 							}
@@ -216,47 +216,47 @@ int main()
 			}
 		case 2://小角度六参数坐标转换
 			{
-				vector<coorCECF_withname> src_coor;	//源坐标
-				vector<coorCECF_withname> dst_coor;	//目标坐标
-				map<string, vector<coorCECF>> coor;	//坐标集合
+				vector<coorECEF_withname> src_coor;	//源坐标
+				vector<coorECEF_withname> dst_coor;	//目标坐标
+				map<string, vector<coorECEF>> coor;	//坐标集合
 				parameter_6 para;	//计算所得七参数
 				getchar();	//读取多余的换行符
 
 				cout << "读入源坐标系坐标：\n";
-				if (readCECFCoor(src_coor))
+				if (readECEFCoor(src_coor))
 				{
 					for (int i = 0; i < src_coor.size(); i++)
 					{
-						coorCECF temp = { src_coor[i].x,src_coor[i].y,src_coor[i].z };
+						coorECEF temp = { src_coor[i].x,src_coor[i].y,src_coor[i].z };
 						if (coor.count(src_coor[i].name) > 0)
 						{
 							coor[src_coor[i].name].push_back(temp);
 						}
 						else
 						{
-							vector<coorCECF> temp2;
+							vector<coorECEF> temp2;
 							temp2.push_back(temp);
-							coor.insert(pair<string, vector<coorCECF>>(src_coor[i].name, temp2));
+							coor.insert(pair<string, vector<coorECEF>>(src_coor[i].name, temp2));
 						}
 					}
 				}
 				else break;
 
 				cout << "读入目标坐标系坐标：\n";
-				if (readCECFCoor(dst_coor))
+				if (readECEFCoor(dst_coor))
 				{
 					for (int i = 0; i < dst_coor.size(); i++)
 					{
-						coorCECF temp = { dst_coor[i].x,dst_coor[i].y,dst_coor[i].z };
+						coorECEF temp = { dst_coor[i].x,dst_coor[i].y,dst_coor[i].z };
 						if (coor.count(dst_coor[i].name) > 0)
 						{
 							coor[dst_coor[i].name].push_back(temp);
 						}
 						else
 						{
-							vector<coorCECF> temp2;
+							vector<coorECEF> temp2;
 							temp2.push_back(temp);
-							coor.insert(pair<string, vector<coorCECF>>(dst_coor[i].name, temp2));
+							coor.insert(pair<string, vector<coorECEF>>(dst_coor[i].name, temp2));
 						}
 					}
 				}
@@ -297,10 +297,10 @@ int main()
 					if (is_compute_int == 1)
 					{
 						cout << "读入需计算的源坐标系坐标：\n";
-						vector<coorCECF_withname> src_compute_coor;//需要转换的源坐标
-						vector<coorCECF_withname> dst_compute_coor;//转换所得的目标坐标
+						vector<coorECEF_withname> src_compute_coor;//需要转换的源坐标
+						vector<coorECEF_withname> dst_compute_coor;//转换所得的目标坐标
 						getchar();
-						if (readCECFCoor(src_compute_coor))
+						if (readECEFCoor(src_compute_coor))
 						{
 							computeDstCoorPara_6(src_compute_coor, dst_compute_coor, para);
 						}
@@ -325,9 +325,9 @@ int main()
 						{
 							cout << "读入检核点<真值>坐标：\n";
 							getchar();
-							vector<coorCECF_withname> real_judge_coor;//真值坐标
+							vector<coorECEF_withname> real_judge_coor;//真值坐标
 							precisionResidual res;
-							if (readCECFCoor(real_judge_coor))
+							if (readECEFCoor(real_judge_coor))
 							{
 								computeResidual(dst_compute_coor, real_judge_coor, res);
 							}
@@ -354,47 +354,47 @@ int main()
 			}
 		case 3://小角度七参数坐标转换
 			{
-				vector<coorCECF_withname> src_coor;	//源坐标
-				vector<coorCECF_withname> dst_coor;	//目标坐标
-				map<string, vector<coorCECF>> coor;	//坐标集合
+				vector<coorECEF_withname> src_coor;	//源坐标
+				vector<coorECEF_withname> dst_coor;	//目标坐标
+				map<string, vector<coorECEF>> coor;	//坐标集合
 				parameter_7 para;	//计算所得七参数
 				getchar();	//读取多余的换行符
 
 				cout << "读入源坐标系坐标：\n";
-				if (readCECFCoor(src_coor))
+				if (readECEFCoor(src_coor))
 				{
 					for (int i = 0; i < src_coor.size(); i++)
 					{
-						coorCECF temp = { src_coor[i].x,src_coor[i].y,src_coor[i].z };
+						coorECEF temp = { src_coor[i].x,src_coor[i].y,src_coor[i].z };
 						if (coor.count(src_coor[i].name) > 0)
 						{
 							coor[src_coor[i].name].push_back(temp);
 						}
 						else
 						{
-							vector<coorCECF> temp2;
+							vector<coorECEF> temp2;
 							temp2.push_back(temp);
-							coor.insert(pair<string, vector<coorCECF>>(src_coor[i].name, temp2));
+							coor.insert(pair<string, vector<coorECEF>>(src_coor[i].name, temp2));
 						}
 					}
 				}
 				else break;
 
 				cout << "读入目标坐标系坐标：\n";
-				if (readCECFCoor(dst_coor))
+				if (readECEFCoor(dst_coor))
 				{
 					for (int i = 0; i < dst_coor.size(); i++)
 					{
-						coorCECF temp = { dst_coor[i].x,dst_coor[i].y,dst_coor[i].z };
+						coorECEF temp = { dst_coor[i].x,dst_coor[i].y,dst_coor[i].z };
 						if (coor.count(dst_coor[i].name) > 0)
 						{
 							coor[dst_coor[i].name].push_back(temp);
 						}
 						else
 						{
-							vector<coorCECF> temp2;
+							vector<coorECEF> temp2;
 							temp2.push_back(temp);
-							coor.insert(pair<string, vector<coorCECF>>(dst_coor[i].name, temp2));
+							coor.insert(pair<string, vector<coorECEF>>(dst_coor[i].name, temp2));
 						}
 					}
 				}
@@ -436,10 +436,10 @@ int main()
 					if (is_compute_int == 1)
 					{
 						cout << "读入需计算的源坐标系坐标：\n";
-						vector<coorCECF_withname> src_compute_coor;//需要转换的源坐标
-						vector<coorCECF_withname> dst_compute_coor;//转换所得的目标坐标
+						vector<coorECEF_withname> src_compute_coor;//需要转换的源坐标
+						vector<coorECEF_withname> dst_compute_coor;//转换所得的目标坐标
 						getchar();
-						if (readCECFCoor(src_compute_coor))
+						if (readECEFCoor(src_compute_coor))
 						{
 							computeDstCoorPara_7(src_compute_coor, dst_compute_coor, para);
 						}
@@ -465,9 +465,9 @@ int main()
 							{
 								cout << "读入检核点<真值>坐标：\n";
 								getchar();
-								vector<coorCECF_withname> real_judge_coor;//真值坐标
+								vector<coorECEF_withname> real_judge_coor;//真值坐标
 								precisionResidual res;
-								if (readCECFCoor(real_judge_coor))
+								if (readECEFCoor(real_judge_coor))
 								{
 									computeResidual(dst_compute_coor, real_judge_coor, res);
 								}
@@ -495,47 +495,47 @@ int main()
 			}
 		case 4://大角度十三参数坐标转换
 			{
-			vector<coorCECF_withname> src_coor;	//源坐标
-			vector<coorCECF_withname> dst_coor;	//目标坐标
-			map<string, vector<coorCECF>> coor;	//坐标集合
+			vector<coorECEF_withname> src_coor;	//源坐标
+			vector<coorECEF_withname> dst_coor;	//目标坐标
+			map<string, vector<coorECEF>> coor;	//坐标集合
 			parameter_13 para;	//计算所得十三参数
 			getchar();	//读取多余的换行符
 
 			cout << "读入源坐标系坐标：\n";
-			if (readCECFCoor(src_coor))
+			if (readECEFCoor(src_coor))
 			{
 				for (int i = 0; i < src_coor.size(); i++)
 				{
-					coorCECF temp = { src_coor[i].x,src_coor[i].y,src_coor[i].z };
+					coorECEF temp = { src_coor[i].x,src_coor[i].y,src_coor[i].z };
 					if (coor.count(src_coor[i].name) > 0)
 					{
 						coor[src_coor[i].name].push_back(temp);
 					}
 					else
 					{
-						vector<coorCECF> temp2;
+						vector<coorECEF> temp2;
 						temp2.push_back(temp);
-						coor.insert(pair<string, vector<coorCECF>>(src_coor[i].name, temp2));
+						coor.insert(pair<string, vector<coorECEF>>(src_coor[i].name, temp2));
 					}
 				}
 			}
 			else break;
 
 			cout << "读入目标坐标系坐标：\n";
-			if (readCECFCoor(dst_coor))
+			if (readECEFCoor(dst_coor))
 			{
 				for (int i = 0; i < dst_coor.size(); i++)
 				{
-					coorCECF temp = { dst_coor[i].x,dst_coor[i].y,dst_coor[i].z };
+					coorECEF temp = { dst_coor[i].x,dst_coor[i].y,dst_coor[i].z };
 					if (coor.count(dst_coor[i].name) > 0)
 					{
 						coor[dst_coor[i].name].push_back(temp);
 					}
 					else
 					{
-						vector<coorCECF> temp2;
+						vector<coorECEF> temp2;
 						temp2.push_back(temp);
-						coor.insert(pair<string, vector<coorCECF>>(dst_coor[i].name, temp2));
+						coor.insert(pair<string, vector<coorECEF>>(dst_coor[i].name, temp2));
 					}
 				}
 			}
@@ -578,10 +578,10 @@ int main()
 				if (is_compute_int == 1)
 				{
 					cout << "读入需计算的源坐标系坐标：\n";
-					vector<coorCECF_withname> src_compute_coor;//需要转换的源坐标
-					vector<coorCECF_withname> dst_compute_coor;//转换所得的目标坐标
+					vector<coorECEF_withname> src_compute_coor;//需要转换的源坐标
+					vector<coorECEF_withname> dst_compute_coor;//转换所得的目标坐标
 					getchar();
-					if (readCECFCoor(src_compute_coor))
+					if (readECEFCoor(src_compute_coor))
 					{
 						computeDstCoorPara_13(src_compute_coor, dst_compute_coor, para);
 					}
@@ -606,9 +606,9 @@ int main()
 					{
 						cout << "读入检核点<真值>坐标：\n";
 						getchar();
-						vector<coorCECF_withname> real_judge_coor;//真值坐标
+						vector<coorECEF_withname> real_judge_coor;//真值坐标
 						precisionResidual res;
-						if (readCECFCoor(real_judge_coor))
+						if (readECEFCoor(real_judge_coor))
 						{
 							computeResidual(dst_compute_coor, real_judge_coor, res);
 						}
@@ -637,16 +637,16 @@ int main()
 			{
 				getchar();	//读取多余的换行符
 				cout << "------------------------------------" << endl;
-				cout << "CECF_xyz -> BLH 请输入 1\n" << "BLH -> CECF_xyz 请输入 2\n";
+				cout << "ECEF_xyz -> BLH 请输入 1\n" << "BLH -> ECEF_xyz 请输入 2\n";
 				int transform_selected;
 				cin >> transform_selected;
 				if(transform_selected==1)
 				{
 					cout << "读入源坐标系坐标：\n";
-					vector<coorCECF_withname> src_coor;	//源坐标
+					vector<coorECEF_withname> src_coor;	//源坐标
 					vector<coorBLH_withname> dst_compute_coor;	//目标坐标
 					getchar();
-					if (readCECFCoor(src_coor))
+					if (readECEFCoor(src_coor))
 					{
 						cout << "数据读入成功！下面进行计算！\n";
 						if (coorXYZ2BLH(src_coor, dst_compute_coor))
@@ -675,7 +675,7 @@ int main()
 				{
 					cout << "读入源坐标系坐标：\n";
 					vector<coorBLH_withname> src_coor;	//源坐标
-					vector<coorCECF_withname> dst_compute_coor;	//目标坐标
+					vector<coorECEF_withname> dst_compute_coor;	//目标坐标
 					getchar();
 					if (readBLHCoor(src_coor))
 					{
@@ -694,7 +694,7 @@ int main()
 							}
 							cout << "---------------------------------\n";*/
 							string filename = "";
-							if (writeCECFCoor(dst_compute_coor, filename))
+							if (writeECEFCoor(dst_compute_coor, filename))
 							{
 								cout << "数据文件已经保存至\n";
 								cout << filename << endl;
@@ -712,13 +712,13 @@ int main()
 				cout << "------------------------------------" << endl;
 				
 				cout << "读入源坐标系坐标：\n";
-				vector<coorCECF_withname> src_coor;	//源坐标
+				vector<coorECEF_withname> src_coor;	//源坐标
 				vector<coorNEU_withname> dst_compute_coor;	//目标坐标
 				getchar();	//读取多余的换行符
-				if (readCECFCoor(src_coor))
+				if (readECEFCoor(src_coor))
 				{
 					cout << "数据读入成功！下面进行计算！\n";
-					coorCECF_withname center = { src_coor[0].x,src_coor[0].y,src_coor[0].z,src_coor[0].name};
+					coorECEF_withname center = { src_coor[0].x,src_coor[0].y,src_coor[0].z,src_coor[0].name};
 					if (coorXYZ2NEU(center,src_coor, dst_compute_coor))
 					{
 						/*cout << "-------------计算结果-------------\n";
@@ -751,7 +751,7 @@ int main()
 	return 0;
 }
 
-bool readCECFCoor(vector<coorCECF_withname> &result)
+bool readECEFCoor(vector<coorECEF_withname> &result)
 {
 	string fileName;//文件名
 	cout << "请输入坐标文件的路径！\n";
@@ -799,7 +799,7 @@ bool readCECFCoor(vector<coorCECF_withname> &result)
 		numberPrecision = max(numberPrecision,(getNumberPrecision(x_string),
 			max(getNumberPrecision(y_string), getNumberPrecision(z_string))));
 		//判断有效数字位数
-		coorCECF_withname tempCoor = {X, Y, Z, Name};
+		coorECEF_withname tempCoor = {X, Y, Z, Name};
 		result.push_back(tempCoor);
 	}
 	if (result.empty())
@@ -908,7 +908,7 @@ bool writeBLHCoor(vector<coorBLH_withname> src, string &filename)
 	
 }
 
-bool writeCECFCoor(vector<coorCECF_withname> src, string& filename)
+bool writeECEFCoor(vector<coorECEF_withname> src, string& filename)
 {
 	if (filename == "")
 	{
