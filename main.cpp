@@ -51,7 +51,8 @@ int main()
 {
 	cout << "----------------------------------" << endl;
 	cout << "欢迎使用坐标转换程序！\n";
-	cout << "作者：李锦韬 2018302141059\n";
+	cout << "https://github.com/AkexStar/CoorTrans/\n";
+	cout << "Email: lijintao.alex@qq.com\n";
 	cout << "----------------------------------" << endl;
 	while (true)
 	{
