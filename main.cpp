@@ -49,13 +49,13 @@ bool cmp(coorECEF_withname a, coorECEF_withname b)
 }
 int main()
 {
-	cout << "----------------------------------" << endl;
+	cout << "------------------------------------" << endl;
 	cout << "欢迎使用坐标转换程序！\n";
 	cout << "https://github.com/AkexStar/CoorTrans/\n";
 	cout << "Email: lijintao.alex@qq.com\n";
 	cout << "文件默认输出路径在D://\n";
 	cout << "如果需要修改输出位置可修改main.cpp\n";
-	cout << "----------------------------------" << endl;
+	cout << "------------------------------------" << endl;
 	while (true)
 	{
 		cout << "\n--------请选择坐标转换类型！--------" << endl;
