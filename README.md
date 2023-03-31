@@ -4,7 +4,11 @@
 - 代码完成时间：2020年3月
 - Email: lijitnao.alex@qq.com
 - 项目依赖于矩阵计算库[Eigen](https://eigen.tuxfamily.org/)，版本3.3.7
-- 使用vs2019编写
+- 使用VS2019编写
+
+## 算法原理说明链接
+
+[坐标转换说明微信推送](https://mp.weixin.qq.com/s/h1kztX7KvulOIRFXsHiXoA)
 
 ## 程序实现功能
 
@@ -16,6 +20,8 @@
 
 ## Clone到本地可能需要修改项目设置
 
+**同时欢迎Fork和Pull Request**
+
 ### 从GitHub下载整个项目到本地
 
 ![image](https://user-images.githubusercontent.com/55226358/205216918-850c9821-2006-466a-93a8-50a9da1e78cf.png)
@@ -25,10 +31,9 @@
 ![image](https://user-images.githubusercontent.com/55226358/205217222-65d947e4-d47b-48d1-a775-384ad906c022.png)
 ![image](https://user-images.githubusercontent.com/55226358/205217518-0f9aebf2-4fe9-49f1-bf1d-3cb9ad60ccca.png)
 
-## 算法原理说明链接
-[坐标转换说明微信推送](https://mp.weixin.qq.com/s/h1kztX7KvulOIRFXsHiXoA)
+---
 
-也欢迎关注公众号[Akex](https://weixin.sogou.com/weixin?type=1&s_from=input&query=Akex)
+**欢迎关注公众号**[Akex](https://weixin.sogou.com/weixin?type=1&s_from=input&query=Akex)
 
 ![image](https://user-images.githubusercontent.com/55226358/205213272-4ee7b206-a7f4-47fd-8567-09055c15c873.png)
 
